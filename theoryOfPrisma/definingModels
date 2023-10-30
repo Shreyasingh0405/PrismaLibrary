@@ -1,0 +1,38 @@
+Models represent the entities of your application domain. Models are represented by model  blocks and define a number of fields.
+
+In your application, you have different types of things you want to keep track of, like users, profiles, posts, and categories. These are called "models."
+
+For example, you can think of a blogging platform where you have users, posts, and comments. Now, let's say you want to add two new models: "Comments" and "Tags."
+
+When you work with databases, there's a naming convention where table or collection names (where your data is stored) often use plural and snake_case (underscores between words), like "comments" for storing comments.
+
+However, in your code, you might want to use singular and PascalCase (capitalized letters for each word) names for your models, like "Comment" and "Tag." It's more natural and easier to work with in code.
+
+But, to make things match up with the database, you can use a special notation in your code called "@@map" for models and "@map" for fields. This tells your code that even though you're using "Comment," it should still connect to the "comments" table in the database. 
+
+So, by using this "@@map" notation, you can keep your code looking clean and organized while still talking to the database in the way it understands. It's like giving your code and the database their own name tags so they can understand each other better.
+
+**Defining Feilds**
+
+In your application, you have things you want to keep track of, like users, comments, and tags. These things have properties, which we call "fields." Each field has a few important parts:
+
+1. Field Name: It's like a label for the property, such as "title" or "name."
+
+2. Field Type: This tells us what kind of data the field holds. It can be something simple like text (String) or numbers (Int), or it can be a reference to another model, like a post (Post) or a bunch of comments (Comment[]).
+
+3. Optional Modifiers: These are extra details about the field that can be added, but they're not required.
+
+4. Attributes: These are special characteristics about the field, like what kind of data it can store in a database.
+
+For example, let's say you have a "Comment" model. It might have fields like:
+
+- "id" (a number that auto-increases)
+- "title" (text)
+- "content" (more text)
+
+And for a "Tag" model, you might just have a "name" field that's used as a unique identifier.
+
+When you connect models together, it's like creating relationships. For example, a "Post" can have many "Comment" fields because a single post can have multiple comments. Each comment belongs to a post, so you link them by using the "postId" field.
+
+In simpler terms, fields are like the properties of your models, and they can hold different types of information. Some fields are just regular data, and others connect to other models to create relationships between them. It's a way to organize and understand your data.
+

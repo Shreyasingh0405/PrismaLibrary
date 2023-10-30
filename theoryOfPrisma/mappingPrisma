@@ -1,0 +1,32 @@
+In Prisma, mapping is a concept that allows you to specify how your data models and fields should be connected to the underlying database. Mapping is used to define custom names for tables, columns, and other database-specific settings. You can use mapping to tailor the representation of your Prisma models to match the structure and naming conventions of your database.
+
+There are two primary ways mapping is used in Prisma:
+
+1. **Model-Level Mapping:**
+   - `@@map(name: String)`: This is applied at the model level and allows you to rename the entire model in the underlying database. For example, if your model is named "User," but in the database, it's represented as "app_users," you can use `@@map` to specify the mapping.
+
+   Example:
+   ```prisma
+   model User {
+     id    Int     @id @default(autoincrement())
+     email String  @unique
+     name  String
+     @@map("app_users") // Map the User model to the "app_users" table in the database
+   }
+   ```
+
+2. **Field-Level Mapping:**
+   - `@map(name: String)`: This is applied at the field level and allows you to rename a specific field to match the column name in the database. For instance, if you want to use "user_email" in the database instead of "email," you can use `@map` to specify the mapping.
+
+   Example:
+   ```prisma
+   model User {
+     id           Int     @id @default(autoincrement())
+     email        String  @unique @map("user_email") // Map the "email" field to the "user_email" column
+     name         String
+   }
+   ```
+
+Using mapping, you can ensure that Prisma's data model aligns with the database's naming conventions and structure. This is especially useful when working with existing databases or when you want to follow specific naming conventions for consistency and compatibility.
+
+Mapping is a powerful feature that allows you to decouple your Prisma data model from the underlying database structure, providing flexibility and control over how your data is represented.

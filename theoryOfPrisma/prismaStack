@@ -1,0 +1,17 @@
+**REST**
+When building REST APIs, Prisma Client can be used inside your route controllers to send databases queries.
+(prismaStackRestApi.png)
+
+**GraphQL**
+GraphQL is a query language for APIs. It is often used as an alternative to RESTful APIs, but can also be used as an additional "gateway" layer on top of existing RESTful services.
+
+With Prisma, you can build GraphQL servers that connect to a database. Prisma is completely agnostic to the GraphQL tools you use. When building a GraphQL server, you can combine Prisma with tools like Apollo Server, GraphQL Yoga, TypeGraphQL, GraphQL.js, or pretty much any tool or library that you're using in your GraphQL server setup.
+
+**What is Prisma's role in a GraphQL server?**
+No matter which of the above GraphQL tools/libraries you use, Prisma is used inside your GraphQL resolvers to connect to your database. It has the same role that any other ORM or SQL query builder would have inside your resolvers.
+
+In the resolver of a GraphQL query, Prisma typically reads data from the database to return it in the GraphQL response. In the resolver of a GraphQL mutation, Prisma typically also writes data to the database (e.g. creating new or updating existing records).
+
+**Fullstack**
+Fullstack frameworks, such as Next.js, Remix or SvelteKit, blur the lines between the server and the client. These frameworks also provide different patterns for fetching and mutating data on the server.
+You can query your database using Prisma Client, using your framework of choice, from the server-side part of your application.

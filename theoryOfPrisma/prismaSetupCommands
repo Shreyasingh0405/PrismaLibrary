@@ -1,0 +1,57 @@
+1. **NOTE**
+**Need to install all the packages related to your techstack before initializing Prisma i.e if you are working with backend using nodejs then install first its needed packages & library then start prisma commands.**
+
+2. Now commands for Prisma:-
+**Step1**
+Invoke the Prisma CLI :-**npx prisma**
+**Step2**
+Next, set up your Prisma project by creating your Prisma schema file with the following command:- **npx prisma init**
+
+**This command does two things:**
+---->>>> Creates a new directory called prisma that contains a file called schema.prisma, 
+    which contains the Prisma schema with your database connection variable and schema models
+---->>>> Creates the .env file in the root directory of the project, which is used for defining environment variables
+          (such as your database connection)
+//----------------------------------------------------------------------//
+3. **Connect your database**
+To connect your database, you need to set the url field of the datasource block in your Prisma schema to your database connection URL:
+
+**IN prisma/schema.prisma File**
+
+datasource db {
+  provider = "DATABASE_NAME"     ***//need to change DATABASE_NAME I.E "MONGODB"OR"SQL" ETC. ***
+  url      = env("DATABASE_URL")  ***//need to change DATABASE_URL***
+}
+
+In this case, the url is set via an environment variable which is defined in .env (the example uses a MongoDB Atlas URL):
+
+**.env file**
+
+DATABASE_URL="Paste Your Database URL here"
+
+\\------------------------------------------------------------------------------\\
+
+4. **Install and generate Prisma Client**
+
+To get started with Prisma Client, you need to install the @prisma/client package:
+
+**npm install @prisma/client**
+
+Installing the @prisma/client package invokes the prisma generate command, which reads your Prisma schema and generates Prisma Client code. The code is generated into the node_modules/.prisma/client folder by default.
+
+**NOTE**
+
+After you change your data model, you'll need to manually re-generate Prisma Client to ensure the code inside node_modules/.prisma/client gets updated:
+
+**npm prisma generate**
+
+5. **Accessing your database with Prisma Client**
+
+**Using Prisma Client to send queries to your database**
+Once Prisma Client has been generated, you can import it in your code and send queries to your database. 
+**This is what the setup code looks like.**
+
+\\const prismaClient = require("@prisma/client")
+const prisma = new PrismaClient()\\
+
+Now you can start sending queries via the generated Prisma Client API, here are a few sample queries. Note that all Prisma Client queries return plain old JavaScript objects.

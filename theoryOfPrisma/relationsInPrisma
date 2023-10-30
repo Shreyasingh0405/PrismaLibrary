@@ -1,0 +1,14 @@
+**Relations**
+A relation is a connection between two models in the Prisma schema. For example, there is a one-to-many relation between User and Post because one user can have many blog posts.
+**Types of relations**
+There are three different types (or cardinalities) of relations in Prisma:
+
+One-to-one (also called 1-1 relations)
+One-to-many (also called 1-n relations)
+Many-to-many (also called m-n relations)
+The following Prisma schema includes every type of relation:
+
+one-to-one: User ↔ Profile
+one-to-many: User ↔ Post
+many-to-many: Post ↔ Category
+

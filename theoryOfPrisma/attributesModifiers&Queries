@@ -1,0 +1,96 @@
+**Prisma provides a variety of attributes and modifiers that you can use to customize and fine-tune your data models. Here's a list of some common attributes and modifiers in Prisma**:
+
+1. `@id`: Marks a field as the primary key of the model, which is a unique identifier for each record.
+
+2. `@default()`: Specifies a default value for a field if no value is provided during record creation.
+
+3. `@unique`: Ensures that all values in the field are unique across all records in the model.
+
+4. `@map(name: String)`: Allows you to map the model or field name to a different name in the underlying database.
+
+5. `@relation`: Specifies a relationship between models, such as defining foreign keys and referencing other models.
+
+6. `@ignore`: Excludes a field from being generated in the Prisma Client, making it a server-only field.
+
+7. `@updatedAt` and `@createdAt`: Automatically manage timestamp fields for record creation and last update.
+
+8. `@db.{databaseType}`: Allows you to specify the database-specific data type for a field. For example, `@db.VarChar(200)` for a VARCHAR field with a maximum length of 200 characters.
+
+9. `@uniqueIndex`: Defines a unique index on one or more fields, ensuring that the combination of values is unique.
+
+10. `@index`: Creates a non-unique index on one or more fields, which can improve query performance.
+
+11. `@enum(name: String)`: Defines an enum type with a specific name for a field.
+
+12. `@json`: Specifies that the field will store JSON data.
+
+13. `@ignore()` and `@@ignore`: Exclude a model or field from the Prisma Client entirely, making it completely hidden from generated code.
+
+14. `@default(value)`: Sets a default value for a field.
+
+15. `@scalarList(strategy: 'relational' | 'document')`: Specifies how Prisma should handle lists (arrays) of scalar values. 'relational' is for traditional relational databases, while 'document' is for document databases like MongoDB.
+
+16. `@compositeIndex(fields: [String, ...])`: Defines a composite index, which is an index that includes multiple fields to improve query performance.
+
+These attributes and modifiers allow you to tailor your data model to specific database requirements, relationships, and business logic, providing flexibility and control over how your data is structured and accessed using Prisma.
+
+
+**Prisma provides CRUD (Create, Read, Update, Delete) operations for your models, and the naming conventions for these operations are straightforward:**
+
+1. **Create:** To create a new record, the query name is typically `createOne` or `createMany` for singular and multiple creations, respectively.
+
+   - `createOne` to create a single record.
+   - `createMany` to create multiple records.
+
+   Example:
+   ```javascript
+   const newUser = await prisma.user.createOne({
+     data: { name: "Alice", email: "alice@example.com" },
+   });
+   ```
+
+2. **Read:** To retrieve data from the database, Prisma offers various query names:
+
+   - `findUnique` to retrieve a single record based on a unique identifier.
+   - `findMany` to retrieve multiple records based on filtering criteria.
+   - `findFirst` to retrieve the first record that matches specific conditions.
+   - `findCount` to count the number of records based on filtering criteria.
+   - `aggregate` to retrieve aggregated data.
+
+   Example:
+   ```javascript
+   const user = await prisma.user.findUnique({
+     where: { id: 1 },
+   });
+
+   const usersWithName = await prisma.user.findMany({
+     where: { name: { contains: "John" } },
+   });
+   ```
+
+3. **Update:** To modify existing records, the query name is typically `updateOne` or `updateMany` for singular and multiple updates, respectively.
+
+   - `updateOne` to update a single record.
+   - `updateMany` to update multiple records based on filtering criteria.
+
+   Example:
+   ```javascript
+   const updatedUser = await prisma.user.updateOne({
+     where: { id: 1 },
+     data: { name: "UpdatedName" },
+   });
+   ```
+
+4. **Delete:** To remove records from the database, the query name is typically `deleteOne` or `deleteMany` for singular and multiple deletions, respectively.
+
+   - `deleteOne` to delete a single record.
+   - `deleteMany` to delete multiple records based on filtering criteria.
+
+   Example:
+   ```javascript
+   const deletedUser = await prisma.user.deleteOne({
+     where: { id: 2 },
+   });
+   ```
+
+These are some common CRUD operation names in Prisma. You can use these queries to interact with your data models effectively and perform Create, Read, Update, and Delete operations as needed.

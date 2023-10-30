@@ -1,0 +1,97 @@
+1. **Data sources**
+A data source determines how Prisma connects your database, and is represented by the datasource  block in the Prisma schema. The following data source uses the postgresql provider and includes a connection URL:
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://johndoe:mypassword@localhost:5432/mydb?schema=public"
+}
+
+A Prisma schema can only have one data source. However, you can:
+
+Programmatically override a data source url when creating your PrismaClient
+Specify a different URL for Prisma Migrate's shadow database if you are working with cloud-hosted development databases
+
+
+2. **Generators**
+A Prisma schema can have one or more generators, represented by the generator  block:
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/prisma-client-js"
+}
+A generator determines which assets are created when you run the prisma generate command. The main property provider defines which Prisma Client (language specific) is created - currently, only prisma-client-js is available. Alternatively you can define any npm package that follows our generator specification. Additionally and optionally you can define a custom output folder for the generated assets with output.
+
+Prisma Client: prisma-client-js
+The generator for Prisma's JavaScript Client accepts multiple additional properties
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["sample-preview-feature"]
+  binaryTargets   = ["linux-musl"]
+}
+
+Community generators
+ If you want to create your own generator, you can use the **create-prisma-generator**
+ Note: Community projects are not maintained or officially supported by Prisma and some features may be out of sync. Use at your own discretion. If you create a community generator, please use this naming convention: 
+ **prisma-generator-<custom-name>.**
+
+
+ 3. **Data model**
+The data model definition part of the Prisma schema defines your application models (also called Prisma models). Models:
+
+Represent the entities of your application domain
+Map to the tables (relational databases like PostgreSQL) or collections (MongoDB) in your database
+Form the foundation of the queries available in the generated Prisma Client API
+When used with TypeScript, Prisma Client provides generated type definitions for your models and any variations of them to make database access entirely type safe.
+The following schema describes a blogging platform - the data model definition is highlighted:
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  email   String   @unique
+  name    String?
+  role    Role     @default(USER)
+  posts   Post[]
+  profile Profile?
+}
+
+model Profile {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  bio    String
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique @db.ObjectId
+}
+
+model Post {
+  id         String     @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt  DateTime   @default(now())
+  title      String
+  published  Boolean    @default(false)
+  author     User       @relation(fields: [authorId], references: [id])
+  authorId   String     @db.ObjectId
+  categories Category[] @relation(references: [id])
+}
+
+model Category {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  name  String
+  posts Post[] @relation(references: [id])
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+
+The data model definition is made up of:
+Models (model  primitives) that define a number of fields, including relations between models
+Enums (enum  primitives) (if your connector supports Enums)
+Attributes and functions that change the behavior of fields and models.
